@@ -10,6 +10,7 @@ import threading
 import logging
 from lib.core.scheduling import depth_first_scheduling
 from lib.core.scheduling import global_scheduling
+from lib.core.spider import spider
 
 spider_logger = logging.getLogger("FruitLineLogs")
 
@@ -26,7 +27,7 @@ def global_server(fruitline_spider_variable):
         t.start()
 
     for i in xrange(fruitline_spider_variable.threads):
-        spider_threads.append(threading.Thread(target=, args=()))
+        spider_threads.append(threading.Thread(target=spider, args=(fruitline_spider_variable, )))
 
     for t in spider_threads:
         t.setDaemon(True)
