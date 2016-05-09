@@ -5,7 +5,7 @@ __author__ = "corazon"
 
 
 class UrlModel(object):
-    def __init__(self, url, referer="", depth, method="get", data=""):
+    def __init__(self, url, referer="", depth=-1, method="get", data=""):
         self.url = url
         self.referer = referer
         self.method = method

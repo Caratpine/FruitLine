@@ -5,6 +5,7 @@ __author__ = "corazon"
 
 import logging
 
+
 def spider_log(fruitline_spider_variable):
     spider_logger = logging.getLogger("FruitLineLogs")
     spider_logger.setLevel(logging.DEBUG)
