@@ -37,12 +37,11 @@ def select_url(url, html, fruitline_spider_variable):
         full_url = repair_url(i, fruitline_spider_variable)
         pattern = re.compile(fruitline_spider_variable.filter_rule)
         if re.match(pattern, full_url):
-            d = dict()
-            d['method'] = "get"
-            d['url'] = full_url
-            final_links.append(d)
-        else:
-            spider_logger.info("URL is not match")
+            if full_url not in fruitline_spider_variable.crawled_url_queue:
+                d = dict()
+                d['method'] = "get"
+                d['url'] = full_url
+                final_links.append(d)
     return final_links
 
 

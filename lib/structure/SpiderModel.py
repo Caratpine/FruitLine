@@ -31,4 +31,5 @@ class FruitLineSpiderModel(object):
         self.global_url_queue = Queue.Queue()
         self.spider_url_queue = Queue.Queue()
         self.html_content_queue = Queue.Queue()
+        self.crawled_url_queue = set()
 
