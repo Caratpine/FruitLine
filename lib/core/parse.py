@@ -8,10 +8,7 @@ import sys
 import re
 import urlparse
 from lxml.html import document_fromstring
-from lxml.html import fromstring
 import urllib2
-from config import session
-from model import SegmentFault
 
 reload(sys)
 sys.setdefaultencoding("utf-8")
@@ -55,33 +52,14 @@ def repair_url(url, fruitline_spider_variable):
         return url
 
 
-def parse_data(html_content):
+def parse_data(html_content, fruitline_spider_variable):
+    parse_func = fruitline_spider_variable.parse
+
     try:
-        dom = fromstring(html_content)
+        parse_func(html_content)
     except Exception, e:
-        spider_logger.error("Function: parse_data, INFO: %s" % str(e))
-        return
-    ul = dom.xpath("//ul[@class='widget-links list-unstyled']")[0]
+        spider_logger.error("Function: parse_func is not existed")
 
-    data = dict()
-
-    for li in ul:
-        try:
-            data['name'] = li.xpath(".//a/text()")[0].strip()
-        except Exception, e:
-            data['name'] = ""
-
-        try:
-            data['url'] = li.xpath(".//a/@href")[0].strip()
-        except Exception, e:
-            data['url'] = ""
-        try:
-            sg = SegmentFault(**data)
-            session.add(sg)
-            session.commit()
-            spider_logger.info("Data: INSERT SUCCESS")
-        except Exception, e:
-            spider_logger.error("Data: INSERT ERROR: %s" % str(e))
 
 if __name__ == "__main__":
     pass

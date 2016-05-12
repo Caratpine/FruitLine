@@ -1,6 +1,8 @@
 #!/usr/bin/env python
 # encoding: utf-8
 
+__author__ = "corazon"
+
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 from model import Base
@@ -15,7 +17,7 @@ pwd = conf.get("mysql", "password")
 address = conf.get("mysql", "address")
 db = conf.get("mysql", "db")
 
-engine = create_engine("mysql+mysqldb://{0}:{1}@{2}/{3}".format(user, pwd, address, db), echo=False, encoding='utf8')
+engine = create_engine("mysql+mysqldb://{0}:{1}@{2}/{3}?charset=utf8".format(user, pwd, address, db), echo=False)
 Base.metadata.create_all(engine)
 Session = sessionmaker(bind=engine)
 session = Session()

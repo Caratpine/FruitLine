@@ -27,7 +27,7 @@ def depth_first_scheduling(fruitline_spider_variable):
         if fruitline_spider_variable.html_content_queue.qsize() > 0:
             html_content = fruitline_spider_variable.html_content_queue.get()
             url_list = select_url(html_content.url, html_content.html, fruitline_spider_variable)
-            parse_data(html_content.html)
+            parse_data(html_content.html, fruitline_spider_variable)
             for d in url_list:
                 url = d['url']
                 method = d['method']

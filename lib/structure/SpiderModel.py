@@ -18,6 +18,7 @@ class FruitLineSpiderModel(object):
         self.depth = 10
         self.http = "https"
         self.domain = "segmentfault.com"
+        self.parse = config_dict.get("parse") if config_dict.get("parse") else ""
 
         self.exit_flag_count = 0
         self.threads = config_dict.get("threads") if config_dict.get("threads") else 10
