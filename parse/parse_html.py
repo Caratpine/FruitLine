@@ -16,6 +16,7 @@ spider_logger = logging.getLogger("FruitLineLogs")
 
 
 def segmentfault_parse(html_content):
+    print "hello world"
     try:
         dom = fromstring(html_content)
     except Exception, e:

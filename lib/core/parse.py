@@ -5,6 +5,7 @@ __author__ = "corazon"
 
 import logging
 import sys
+sys.path.append(sys.path[0].split("FruitLine")[0] + "FruitLine/lib")
 import re
 import urlparse
 from lxml.html import document_fromstring
@@ -32,13 +33,21 @@ def select_url(url, html, fruitline_spider_variable):
     final_links = []
     for i in list(links_unrepeat):
         full_url = repair_url(i, fruitline_spider_variable)
-        pattern = re.compile(fruitline_spider_variable.filter_rule)
-        if re.match(pattern, full_url):
+        if fruitline_spider_variable.filter_rule != "":
+            pattern = re.compile(fruitline_spider_variable.filter_rule)
+            if re.match(pattern, full_url):
+                if full_url not in fruitline_spider_variable.crawled_url_queue:
+                    d = dict()
+                    d['method'] = "get"
+                    d['url'] = full_url
+                    final_links.append(d)
+        else:
             if full_url not in fruitline_spider_variable.crawled_url_queue:
                 d = dict()
                 d['method'] = "get"
                 d['url'] = full_url
                 final_links.append(d)
+
     return final_links
 
 
@@ -54,11 +63,16 @@ def repair_url(url, fruitline_spider_variable):
 
 def parse_data(html_content, fruitline_spider_variable):
     parse_func = fruitline_spider_variable.parse
+    print type(parse_func)
+    print parse_func
 
-    try:
-        parse_func(html_content)
-    except Exception, e:
-        spider_logger.error("Function: parse_func is not existed")
+    if type(parse_func) != str:
+        try:
+            parse_func(html_content)
+        except Exception, e:
+            spider_logger.error("Parse error, INFO: %s" % str(e))
+    else:
+        spider_logger.error("Function: func is not exist")
 
 
 if __name__ == "__main__":
