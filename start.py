@@ -10,9 +10,12 @@ from lib.structure.SpiderModel import FruitLineSpiderModel
 from lib.server.server import global_server
 from lib.common.log import spider_log
 import config
+import logging
 from config import celery_app
 from tasks import segementfault_task
 from parse.parse_html import segmentfault_parse
+
+spider_logger = logging.getLogger("FruitLineLogs")
 
 
 def get_config():
@@ -24,10 +27,39 @@ def get_config():
 
     for sec in sections:
         conf_dict = dict()
-        conf_dict['url'] = conf.get("spider", "url")
-        conf_dict['filter_rule'] = conf.get("spider", "filter_rule")
-        conf_dict['parse'] = conf.get("spider", "parse")
-        conf_dict['depth'] = conf.get("spider", "depth")
+        try:
+            conf_dict['url'] = conf.get(sec, "url")
+        except Exception, e:
+            spider_logger.error("CONFIG: cannot get url, INFO: %s" % str(e))
+            return
+        try:
+            conf_dict['filter_rule'] = conf.get(sec, "filter_rule")
+        except Exception, e:
+            pass
+        try:
+            conf_dict['parse'] = conf.get(sec, "parse")
+        except Exception, e:
+            pass
+        try:
+            conf_dict['depth'] = conf.get(sec, "depth")
+        except Exception, e:
+            pass
+        try:
+            conf_dict['crawl_policy'] = conf.get(sec, 'crawl_policy')
+        except Exception, e:
+            pass
+        try:
+            conf_dict['spider_model'] = conf.get(sec, 'spider_model')
+        except Exception, e:
+            pass
+        try:
+            conf_dict['threads'] = conf.get(sec, 'threads')
+        except Exception, e:
+            pass
+        try:
+            conf_dict['count'] = conf.get(sec, 'count')
+        except Exception, e:
+            pass
 
         url_parse = urlparse.urlparse(conf_dict['url'])
         conf_dict['http'] = url_parse[0]
@@ -49,7 +81,8 @@ def spider(conf_dicts):
 if __name__ == "__main__":
     try:
         conf_dicts = get_config()
-        spider(conf_dicts)
+        if conf_dicts is not None:
+            spider(conf_dicts)
     except KeyboardInterrupt, e:
         print "\nExit!"
         sys.exit()
