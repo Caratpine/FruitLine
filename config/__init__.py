@@ -26,5 +26,11 @@ main = conf.get("celery", "main")
 broker = conf.get("celery", "broker")
 backend = conf.get("celery", "backend")
 
-celery_app = Celery(main, broker=broker, backend=backend)
+celery_app = Celery(main,
+                    broker=broker,
+                    backend=backend,
+                    include=['tasks'])
+
+celery_app.config_from_object('celeryconfig')
+
 
