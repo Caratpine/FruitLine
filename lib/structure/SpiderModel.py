@@ -18,8 +18,11 @@ class FruitLineSpiderModel(object):
         self.depth = config_dict.get("depth") if config_dict.get("depth") else 10
         self.http = config_dict.get("http") if config_dict.get("http") else "http"
         self.domain = config_dict.get("domain") if config_dict.get("domain") else ""
-        self.parse = config_dict.get("parse") if config_dict.get("parse") else ""
-
+        try:
+            exec "from parse.parse_html import " + config_dict.get("parse")
+            self.parse = eval(config_dict.get("parse"))
+        except:
+            self.parse = ""
         self.exit_flag_count = 0
         self.threads = config_dict.get("threads") if config_dict.get("threads") else 10
         self.total_count = 0

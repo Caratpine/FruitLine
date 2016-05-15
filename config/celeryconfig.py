@@ -13,6 +13,7 @@ CELERY_DEFAULT_EXCHANGE = 'tasks'
 CELERY_DEFAULT_EXCHANGE_TYPE = 'direct'
 
 CELERY_QUEUES = (
-  Queue('machine1',exchange='tasks',routing_key='machine1'),
-  Queue('machine2',exchange='tasks',routing_key='machine2'),
+  Queue('machine1', Exchange('tasks'), routing_key='machine1'),
+  Queue('machine2', Exchange('tasks'), routing_key='machine2'),
 )
+

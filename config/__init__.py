@@ -3,11 +3,15 @@
 
 __author__ = "corazon"
 
+import ConfigParser
+import sys
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 from model import Base
 from celery import Celery
-import ConfigParser
+import celeryconfig
+
+sys.path.append(sys.path[0].split("FruitLine")[0] + "FruitLine/config")
 
 conf = ConfigParser.ConfigParser()
 conf.read("./config/config_bak.ini")
@@ -31,6 +35,6 @@ celery_app = Celery(main,
                     backend=backend,
                     include=['tasks'])
 
-celery_app.config_from_object('celeryconfig')
+celery_app.config_from_object(celeryconfig)
 
 

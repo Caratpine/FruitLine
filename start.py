@@ -26,7 +26,7 @@ def get_config():
         conf_dict = dict()
         conf_dict['url'] = conf.get("spider", "url")
         conf_dict['filter_rule'] = conf.get("spider", "filter_rule")
-        conf_dict['parse'] = segmentfault_parse
+        conf_dict['parse'] = conf.get("spider", "parse")
         conf_dict['depth'] = conf.get("spider", "depth")
 
         url_parse = urlparse.urlparse(conf_dict['url'])
