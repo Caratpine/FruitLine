@@ -41,6 +41,17 @@ def depth_first_scheduling(fruitline_spider_variable):
                     fruitline_spider_variable.refuse_count += 1
 
 
+def fifo_scheduling(fruitline_spider_variable):
+    url_list = fruitline_spider_variable.get_url_list()
+    url_model = UrlModel(url_list.next(), "", -1)
+    fruitline_spider_variable.global_url_queue.put(url_model)
+
+    while exit_condition(fruitline_spider_variable):
+        if fruitline_spider_variable.html_content_queue.qsize() > 0:
+            html_content = fruitline_spider_variable.html_content_queue.get()
+            
+
+
 def global_scheduling(fruitline_spider_variable):
     while True:
         if fruitline_spider_variable.global_url_queue.qsize() > 0:

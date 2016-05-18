@@ -37,3 +37,11 @@ class FruitLineSpiderModel(object):
         self.html_content_queue = Queue.Queue()
         self.crawled_url_queue = set()
 
+    def get_url_list(self):
+        if self.spider_model == 1:
+            with open('./config/url_list.txt', 'r') as f:
+                res = f.readlines()
+                for u in res:
+                    yield u[:-1]
+
+
