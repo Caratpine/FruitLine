@@ -49,10 +49,12 @@ def req(url, spider_model=0, fetch_time_interval=1, set_referer=True, set_cookie
 
     if spider_model == 0:
         try:
-            response = requests.get(url, timeout=10, headers=headers, allow_redirects=False)
+            response = requests.get(url, timeout=6, headers=headers, allow_redirects=False)
             if response.status_code == 200:
                 html_content = response.content
+                spider_logger.info("[URL] %s Status Code: %s" % (str(url), str(response.status_code)))
             else:
+                spider_logger.error("[URL] %s Status Code: %s" % (str(url), str(response.status_code)))
                 return ""
         except Exception, e:
             spider_logger.error("Function: req, Info: %s", str(e))

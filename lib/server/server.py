@@ -8,7 +8,7 @@ import sys
 sys.path.append(sys.path[0].split("FruitLine")[0] + "FruitLine")
 import threading
 import logging
-from lib.core.scheduling import depth_first_scheduling
+from lib.core.scheduling import depth_first_scheduling, fifo_scheduling
 from lib.core.scheduling import global_scheduling
 from lib.core.spider import spider
 
@@ -19,7 +19,11 @@ def global_server(fruitline_spider_variable):
     threads_list = []
     spider_threads = []
 
-    threads_list.append(threading.Thread(target=depth_first_scheduling, args=(fruitline_spider_variable, )))
+    if fruitline_spider_variable.crawl_policy == 0:
+        threads_list.append(threading.Thread(target=depth_first_scheduling, args=(fruitline_spider_variable, )))
+    else:
+        threads_list.append(threading.Thread(target=fifo_scheduling, args=(fruitline_spider_variable, )))
+
     threads_list.append(threading.Thread(target=global_scheduling, args=(fruitline_spider_variable, )))
 
     for t in threads_list:

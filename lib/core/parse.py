@@ -63,8 +63,6 @@ def repair_url(url, fruitline_spider_variable):
 
 def parse_data(html_content, fruitline_spider_variable):
     parse_func = fruitline_spider_variable.parse
-    print type(parse_func)
-    print parse_func
 
     if type(parse_func) != str:
         try:

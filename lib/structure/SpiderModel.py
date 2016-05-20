@@ -15,7 +15,7 @@ class FruitLineSpiderModel(object):
         self.start_time = time.time()
         self.end_time = None
         self.time = 24 * 3600
-        self.depth = config_dict.get("depth") if config_dict.get("depth") else 10
+        self.depth = int(config_dict.get("depth")) if config_dict.get("depth") else 10
         self.http = config_dict.get("http") if config_dict.get("http") else "http"
         self.domain = config_dict.get("domain") if config_dict.get("domain") else ""
         try:
@@ -24,13 +24,13 @@ class FruitLineSpiderModel(object):
         except:
             self.parse = ""
         self.exit_flag_count = 0
-        self.threads = config_dict.get("threads") if config_dict.get("threads") else 10
+        self.threads = int(config_dict.get("threads")) if config_dict.get("threads") else 10
         self.total_count = 0
-        self.count = config_dict.get("count") if config_dict.get("count") else 1000 * 1000
-        self.spider_model = config_dict.get("spider_model") if config_dict.get("spider_model") else 0
+        self.count = int(config_dict.get("count")) if config_dict.get("count") else 1000 * 1000
+        self.spider_model = int(config_dict.get("spider_model")) if config_dict.get("spider_model") else 0
         self.filter_rule = config_dict.get("filter_rule") if config_dict.get("filter_rule") else ""
         self.refuse_count = 0
-        self.crawl_policy = config_dict.get("crawl_policy") if config_dict.get("crawl_policy") else 0
+        self.crawl_policy = int(config_dict.get("crawl_policy")) if config_dict.get("crawl_policy") else 0
 
         self.global_url_queue = Queue.Queue()
         self.spider_url_queue = Queue.Queue()
@@ -38,10 +38,23 @@ class FruitLineSpiderModel(object):
         self.crawled_url_queue = set()
 
     def get_url_list(self):
-        if self.spider_model == 1:
+        if self.crawl_policy == 1:
             with open('./config/url_list.txt', 'r') as f:
                 res = f.readlines()
+                print res
                 for u in res:
                     yield u[:-1]
+
+    def print_r(self):
+        print self.start_url
+        print self.depth
+        print self.http
+        print self.domain
+        print self.parse
+        print self.threads
+        print self.count
+        print self.spider_model
+        print self.filter_rule
+        print self.crawl_policy
 
 

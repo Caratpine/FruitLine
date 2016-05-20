@@ -14,3 +14,10 @@ def segementfault_task(conf_dict):
     fruitline_spider_variable = FruitLineSpiderModel(conf_dict)
     spider_log(fruitline_spider_variable)
     global_server(fruitline_spider_variable)
+
+
+@celery_app.task
+def douban_task(conf_dict):
+    fruitline_spider_variable = FruitLineSpiderModel(conf_dict)
+    spider_log(fruitline_spider_variable)
+    global_server(fruitline_spider_variable)

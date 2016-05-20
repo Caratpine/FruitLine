@@ -14,7 +14,7 @@ import celeryconfig
 sys.path.append(sys.path[0].split("FruitLine")[0] + "FruitLine/config")
 
 conf = ConfigParser.ConfigParser()
-conf.read("./config/config_bak.ini")
+conf.read("./config/config.ini")
 
 user = conf.get("mysql", "user")
 pwd = conf.get("mysql", "password")

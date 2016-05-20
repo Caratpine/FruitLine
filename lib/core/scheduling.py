@@ -9,6 +9,9 @@ import sys
 sys.path.append(sys.path[0].split("FruitLine")[0] + "FruitLine/lib")
 from structure.UrlModel import UrlModel
 from parse import select_url, parse_data
+import logging
+
+spider_logger = logging.getLogger("FruitLineLogs")
 
 
 def exit_condition(fruitline_spider_variable):
@@ -43,13 +46,22 @@ def depth_first_scheduling(fruitline_spider_variable):
 
 def fifo_scheduling(fruitline_spider_variable):
     url_list = fruitline_spider_variable.get_url_list()
-    url_model = UrlModel(url_list.next(), "", -1)
+    url = url_list.next()
+    spider_logger.info("global_url_queue: %s" % str(url))
+    url_model = UrlModel(url)
     fruitline_spider_variable.global_url_queue.put(url_model)
 
     while exit_condition(fruitline_spider_variable):
         if fruitline_spider_variable.html_content_queue.qsize() > 0:
             html_content = fruitline_spider_variable.html_content_queue.get()
-            
+            parse_data(html_content.html, fruitline_spider_variable)
+        try:
+            url = url_list.next()
+            spider_logger.info("URL list: %s" % str(url))
+            url_model = UrlModel(url)
+            fruitline_spider_variable.global_url_queue.put(url_model)
+        except StopIteration, e:
+            pass
 
 
 def global_scheduling(fruitline_spider_variable):
@@ -57,7 +69,7 @@ def global_scheduling(fruitline_spider_variable):
         if fruitline_spider_variable.global_url_queue.qsize() > 0:
             url_model = fruitline_spider_variable.global_url_queue.get()
             fruitline_spider_variable.spider_url_queue.put(url_model)
-
+            spider_logger.info("spider_url_queue: %s" % str(fruitline_spider_variable.spider_url_queue.qsize()))
 
 
 if __name__ == "__main__":

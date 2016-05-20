@@ -16,7 +16,6 @@ spider_logger = logging.getLogger("FruitLineLogs")
 
 
 def segmentfault_parse(html_content):
-    print "hello world"
     try:
         dom = fromstring(html_content)
     except Exception, e:
@@ -46,3 +45,8 @@ def segmentfault_parse(html_content):
             spider_logger.error("Data: INSERT ERROR: %s" % str(e))
 
     return data
+
+
+def douban_parse(html_content):
+    print "test ok"
+    return

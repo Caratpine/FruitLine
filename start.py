@@ -12,7 +12,7 @@ from lib.common.log import spider_log
 import config
 import logging
 from config import celery_app
-from tasks import segementfault_task
+from tasks import segementfault_task, douban_task
 from parse.parse_html import segmentfault_parse
 
 spider_logger = logging.getLogger("FruitLineLogs")
@@ -72,10 +72,11 @@ def get_config():
 
 def spider(conf_dicts):
     # segementfault_task.delay(conf_dicts['spider']).get()
-    # fruitline_spider_variable = FruitLineSpiderModel(conf_dicts['spider'])
-    # spider_log(fruitline_spider_variable)
-    # global_server(fruitline_spider_variable)
-    segementfault_task.apply_async(args=[conf_dicts['spider']], queue='machine1', routing_key='machine1').get()
+    fruitline_spider_variable = FruitLineSpiderModel(conf_dicts['douban'])
+    spider_log(fruitline_spider_variable)
+    global_server(fruitline_spider_variable)
+    # segementfault_task.apply_async(args=[conf_dicts['spider']], queue='machine1', routing_key='machine1').get()
+    # douban_task.apply_async(args=[conf_dicts['douban']], queue='machine1', routing_key='machine1').get()
 
 
 if __name__ == "__main__":
