@@ -75,7 +75,7 @@ def spider(conf_dicts):
     fruitline_spider_variable = FruitLineSpiderModel(conf_dicts['douban'])
     spider_log(fruitline_spider_variable)
     global_server(fruitline_spider_variable)
-    # segementfault_task.apply_async(args=[conf_dicts['spider']], queue='machine1', routing_key='machine1').get()
+    # segementfault_task.apply_async(args=[conf_dicts['segmentfault']], queue='machine1', routing_key='machine1').get()
     # douban_task.apply_async(args=[conf_dicts['douban']], queue='machine1', routing_key='machine1').get()
 
 

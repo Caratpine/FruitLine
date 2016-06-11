@@ -41,7 +41,6 @@ class FruitLineSpiderModel(object):
         if self.crawl_policy == 1:
             with open('./config/url_list.txt', 'r') as f:
                 res = f.readlines()
-                print res
                 for u in res:
                     yield u[:-1]
 

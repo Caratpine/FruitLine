@@ -7,6 +7,7 @@ import time
 import random
 import requests
 import sys
+import httplib
 sys.path.append(sys.path[0].split("FruitLine")[0] + "FruitLine/lib")
 from structure.HtmlModel import HtmlModel
 from common.common import timestamp
@@ -39,22 +40,35 @@ def spider(fruitline_spider_variable):
 def req(url, spider_model=0, fetch_time_interval=1, set_referer=True, set_cookies=False):
     headers = dict()
 
-    if set_referer:
-        headers['Referer'] = set_referer
-    if set_cookies:
-        headers['Cookie'] = set_cookies
-    headers['User-Agent'] = random_http_headers()
+    # if set_referer:
+    #     headers['Referer'] = "https://www.douban.com/"
+    # if set_cookies:
+    #     headers['Cookie'] = set_cookies
+    # headers['User-Agent'] = random_http_headers()
+    # headers['Accept'] = 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8'
+
+    headers = {
+        'accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8',
+        'accept-encoding': 'gzip, deflate, sdch, br',
+        'accept-language': 'zh,zh-CN;q=0.8,en;q=0.6',
+        'cache-control': 'max-age=0',
+        'upgrade-insecure-requests': '1',
+        "user-agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_4) AppleWebKit/537.36 (KHTML, like Gecko) \ "
+        "Chrome/50.0.2661.86 ",
+    }
 
     html_content = ""
 
     if spider_model == 0:
         try:
-            response = requests.get(url, timeout=6, headers=headers, allow_redirects=False)
+            response = requests.get(url, timeout=10, headers=headers, allow_redirects=False)
             if response.status_code == 200:
                 html_content = response.content
-                spider_logger.info("[URL] %s Status Code: %s" % (str(url), str(response.status_code)))
+                # spider_logger.info("[URL] %s Status Code: %s" % (str(url), str(response.status_code)))
             else:
                 spider_logger.error("[URL] %s Status Code: %s" % (str(url), str(response.status_code)))
+                with open("error.txt", "a+") as f:
+                    f.write(url + '\n')
                 return ""
         except Exception, e:
             spider_logger.error("Function: req, Info: %s", str(e))

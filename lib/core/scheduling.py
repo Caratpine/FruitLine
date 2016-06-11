@@ -47,7 +47,6 @@ def depth_first_scheduling(fruitline_spider_variable):
 def fifo_scheduling(fruitline_spider_variable):
     url_list = fruitline_spider_variable.get_url_list()
     url = url_list.next()
-    spider_logger.info("global_url_queue: %s" % str(url))
     url_model = UrlModel(url)
     fruitline_spider_variable.global_url_queue.put(url_model)
 
@@ -57,7 +56,6 @@ def fifo_scheduling(fruitline_spider_variable):
             parse_data(html_content.html, fruitline_spider_variable)
         try:
             url = url_list.next()
-            spider_logger.info("URL list: %s" % str(url))
             url_model = UrlModel(url)
             fruitline_spider_variable.global_url_queue.put(url_model)
         except StopIteration, e:
@@ -69,7 +67,6 @@ def global_scheduling(fruitline_spider_variable):
         if fruitline_spider_variable.global_url_queue.qsize() > 0:
             url_model = fruitline_spider_variable.global_url_queue.get()
             fruitline_spider_variable.spider_url_queue.put(url_model)
-            spider_logger.info("spider_url_queue: %s" % str(fruitline_spider_variable.spider_url_queue.qsize()))
 
 
 if __name__ == "__main__":

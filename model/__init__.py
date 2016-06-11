@@ -4,5 +4,5 @@
 __author__ = "corazon"
 
 from .base import Base
-from .SegmentfaultModel import SegmentFault
+from .models import SegmentFault, DouBanMovie
 
